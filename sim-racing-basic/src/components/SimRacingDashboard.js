@@ -1,5 +1,5 @@
 // src/components/SimRacingDashboard.js
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
 const SimRacingDashboard = () => {
@@ -31,52 +31,65 @@ const SimRacingDashboard = () => {
     backgroundColor: '#fff',
   };
 
+  // State for selected category
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  // Function to handle category selection
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
+
+  // Cards data for different categories
+  const cardsData = {
+    wheels: [
+      { title: 'Wheel Product 1', description: 'Description of Wheel Product 1' },
+      { title: 'Wheel Product 2', description: 'Description of Wheel Product 2' },
+    ],
+    pedals: [
+      { title: 'Pedal Product 1', description: 'Description of Pedal Product 1' },
+      { title: 'Pedal Product 2', description: 'Description of Pedal Product 2' },
+    ],
+    cockpits: [
+      { title: 'Cockpit Product 1', description: 'Description of Cockpit Product 1' },
+      { title: 'Cockpit Product 2', description: 'Description of Cockpit Product 2' },
+    ],
+    wishlist: [
+      { title: 'Wishlist Item 1', description: 'Description of Wishlist Item 1' },
+      { title: 'Wishlist Item 2', description: 'Description of Wishlist Item 2' },
+    ],
+  };
+
   return (
     <div>
       <h2>Welcome to the Sim Racing Store!</h2>
       <nav style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
-        <Link to="wheels" style={buttonStyle}>
+        <button style={buttonStyle} onClick={() => handleCategorySelect('wheels')}>
           Wheels
-        </Link>
-        <Link to="pedals" style={buttonStyle}>
+        </button>
+        <button style={buttonStyle} onClick={() => handleCategorySelect('pedals')}>
           Pedals
-        </Link>
-        <Link to="cockpits" style={buttonStyle}>
+        </button>
+        <button style={buttonStyle} onClick={() => handleCategorySelect('cockpits')}>
           Cockpits
-        </Link>
-        <Link to="wishlist" style={buttonStyle}>
+        </button>
+        <button style={buttonStyle} onClick={() => handleCategorySelect('wishlist')}>
           Wish List
-        </Link>
+        </button>
       </nav>
 
       {/* Search Bar */}
       <input type="text" placeholder="Search for products" style={searchBarStyle} />
 
-      {/* Cards for different items */}
+      {/* Display cards based on selected category */}
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <div style={cardStyle}>
-          <h3>Wheel Product</h3>
-          <p>Description of the wheel product.</p>
-          <button>Add to Cart</button>
-        </div>
-
-        <div style={cardStyle}>
-          <h3>Pedal Product</h3>
-          <p>Description of the pedal product.</p>
-          <button>Add to Cart</button>
-        </div>
-
-        <div style={cardStyle}>
-          <h3>Cockpit Product</h3>
-          <p>Description of the cockpit product.</p>
-          <button>Add to Cart</button>
-        </div>
-
-        <div style={cardStyle}>
-          <h3>Wishlist Item</h3>
-          <p>Description of the wishlist item.</p>
-          <button>Move to Cart</button>
-        </div>
+        {selectedCategory &&
+          cardsData[selectedCategory].map((item, index) => (
+            <div key={index} style={cardStyle}>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <button>Add to {selectedCategory === 'wishlist' ? 'Wish List' : 'Cart'}</button>
+            </div>
+          ))}
       </div>
 
       <hr />
@@ -86,5 +99,8 @@ const SimRacingDashboard = () => {
 };
 
 export default SimRacingDashboard;
+
+
+
 
 
