@@ -1,6 +1,6 @@
 // src/components/SimRacingDashboard.js
-import React, { useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 
 const SimRacingDashboard = () => {
   const buttonStyle = {
@@ -33,12 +33,28 @@ const SimRacingDashboard = () => {
 
   // State for selected category
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [products, setProducts] = useState([]);
 
-  // Function to handle category selection
+  useEffect(() => {
+    // Fetch data from the backend when the component mounts
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://your-flask-api-url/${selectedCategory}`);
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    if (selectedCategory) {
+      fetchData();
+    }
+  }, [selectedCategory]);
+
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
-  };
-
+  }; 
+  
   // Cards data for different categories
   const cardsData = {
     wheels: [

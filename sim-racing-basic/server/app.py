@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from config import app, db, api
+from config import app, db, api, CORS, Migrate
 from models import User, Wheel, Pedals, SimCockpit
 
 

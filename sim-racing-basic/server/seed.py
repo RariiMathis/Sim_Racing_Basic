@@ -1,10 +1,13 @@
 from config import app, db
 from models import User, Wheel, Pedals, SimCockpit
+from werkzeug.security import generate_password_hash
 
 def seed_users():
+    # Clear existing users
+    db.session.query(User).delete()
+
     users = [
-        {'username': '', 'email': '', '_password_hash': ''},
-        {'username': '', 'email': '', '_password_hash': ''},
+        {"username": "user1", "email": "user1@example.com", "_password_hash": generate_password_hash("password1")}
         # Add more user data as needed
     ]
 

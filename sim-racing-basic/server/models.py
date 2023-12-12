@@ -13,7 +13,7 @@ class Wheel(db.Model):
     wheel_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     brand = db.Column(db.String(50), nullable=False)
-    img = db.Column(db.LargeBinary, nullable=True)
+    img = db.Column(db.String, nullable=True)
     model = db.Column(db.String(50), nullable=False)
     price = db.Column(db.DECIMAL(10, 2), nullable=False)
 
@@ -21,7 +21,7 @@ class Pedals(db.Model):
     pedals_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     brand = db.Column(db.String(50), nullable=False)
-    img = db.Column(db.LargeBinary, nullable=True)
+    img = db.Column(db.String, nullable=True)
     model = db.Column(db.String(50), nullable=False)
     price = db.Column(db.DECIMAL(10, 2), nullable=False)
 
@@ -29,6 +29,6 @@ class SimCockpit(db.Model):
     cockpit_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     brand = db.Column(db.String(50), nullable=False)
-    img = db.Column(db.LargeBinary, nullable=True)
+    img = db.Column(db.String, nullable=True)
     model = db.Column(db.String(50), nullable=False)
     price = db.Column(db.DECIMAL(10, 2), nullable=False)
