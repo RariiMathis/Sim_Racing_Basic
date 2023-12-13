@@ -8,14 +8,25 @@ class User(db.Model):
     username = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False, unique=True)
     _password_hash = db.Column(db.String(50), nullable=False)
+    
+    def __repr__(self):
+        return f'<Wheel {self.id}>'
+
+# models.py
+from config import db
+
+# models.py
 
 class Wheel(db.Model):
-    wheel_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
-    brand = db.Column(db.String(50), nullable=False)
-    img = db.Column(db.String, nullable=True)
-    model = db.Column(db.String(50), nullable=False)
-    price = db.Column(db.DECIMAL(10, 2), nullable=False)
+    brand = db.Column(db.String(255), nullable=False)
+    img = db.Column(db.String(255))
+    model = db.Column(db.String(255), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+
+    def __repr__(self):
+        return f'<Wheel {self.id}>'
 
 class Pedals(db.Model):
     pedals_id = db.Column(db.Integer, primary_key=True)
@@ -23,7 +34,11 @@ class Pedals(db.Model):
     brand = db.Column(db.String(50), nullable=False)
     img = db.Column(db.String, nullable=True)
     model = db.Column(db.String(50), nullable=False)
-    price = db.Column(db.DECIMAL(10, 2), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    
+    def __repr__(self):
+        return f'<Pedals {self.pedals_id}>'
+
 
 class SimCockpit(db.Model):
     cockpit_id = db.Column(db.Integer, primary_key=True)
@@ -31,4 +46,7 @@ class SimCockpit(db.Model):
     brand = db.Column(db.String(50), nullable=False)
     img = db.Column(db.String, nullable=True)
     model = db.Column(db.String(50), nullable=False)
-    price = db.Column(db.DECIMAL(10, 2), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    
+    def __repr__(self):
+        return f'<Wheel {self.id}>'
