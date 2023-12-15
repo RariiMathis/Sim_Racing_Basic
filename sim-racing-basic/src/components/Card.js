@@ -1,7 +1,15 @@
 // src/components/Card.js
 import React from 'react';
 
-const Card = ({ item, onAddToWishlist }) => {
+const Card = ({ item, onAddToWishlist, onDeleteFromWishlist }) => {
+  const handleAddToWishlist = () => {
+    onAddToWishlist(item);
+  };
+
+  const handleDeleteFromWishlist = () => {
+    onDeleteFromWishlist(item);
+  };
+
   return (
     <div style={cardStyle}>
       <img src={item.img} alt={item.title} style={imageStyle} />
@@ -18,8 +26,8 @@ const Card = ({ item, onAddToWishlist }) => {
       <p>Model: {item.model}</p>
       <p>Price: ${item.price}</p>
 
-      
-      <button onClick={() => onAddToWishlist(item)}>Add to Wishlist</button>
+      <button onClick={handleDeleteFromWishlist}>Remove from Wishlist</button>
+      <button onClick={handleAddToWishlist}>Add to Wishlist</button>
     </div>
   );
 };
@@ -40,3 +48,4 @@ const imageStyle = {
 };
 
 export default Card;
+

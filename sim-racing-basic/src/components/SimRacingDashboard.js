@@ -1,35 +1,26 @@
 // src/components/SimRacingDashboard.js
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
 import Card from './Card';
 
-// Define API base URL
-const API_BASE_URL = 'http://localhost:5000/api/';
-
 const SimRacingDashboard = () => {
-  // State for selected category, products, and loading status
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Fetch data from the backend when the component mounts or category changes
     const fetchData = async () => {
       if (selectedCategory) {
         try {
           setLoading(true);
 
-          const response = await axios.get(`${API_BASE_URL}${selectedCategory}`);
+          const response = await axios.get(`http://localhost:5000/api/${selectedCategory}`);
 
-          // Log fetched data
           console.log('Fetched data:', response.data);
 
           setProducts(response.data);
         } catch (error) {
           console.error('Error fetching data:', error);
-          // Display a user-friendly error message
-          // You might want to set an error state for more advanced error handling
           alert('Error fetching data. Please try again.');
         } finally {
           setLoading(false);
@@ -44,25 +35,25 @@ const SimRacingDashboard = () => {
     setSelectedCategory(category);
   };
 
-  const handleAddToCart = (item) => {
-    console.log(`Added ${item.title} to Cart`);
-    // Implement your logic to add the item to the cart
+  const handleAddToWishlist = async (item) => {
+    try {
+      await axios.post('http://localhost:5000/api/wishlist', item);
+      alert(`${item.title} added to Wishlist`);
+    } catch (error) {
+      console.error('Error adding to wishlist:', error);
+      alert('Error adding to Wishlist. Please try again.');
+    }
   };
 
-  const handleAddToWishlist = (item) => {
-    console.log(`Added ${item.title} to Wishlist`);
-    // Implement your logic to add the item to the wishlist
-  };
-
-  const renderCategoryComponent = () => {
-    switch (selectedCategory) {
-      case 'wheels':
-      case 'pedals':
-      case 'cockpits':
-      case 'wishlist':
-        return <CardList items={products} onAddToCart={handleAddToCart} onAddToWishlist={handleAddToWishlist} />;
-      default:
-        return null;
+  const handleDeleteFromWishlist = async (item) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/wishlist/${item.id}`);
+      const updatedWishlist = products.filter((product) => product.id !== item.id);
+      setProducts(updatedWishlist);
+      alert(`${item.title} removed from Wishlist`);
+    } catch (error) {
+      console.error('Error deleting from wishlist:', error);
+      alert('Error removing from Wishlist. Please try again.');
     }
   };
 
@@ -80,26 +71,16 @@ const SimRacingDashboard = () => {
       <input type="text" placeholder="Search for products" />
 
       {/* Render the selected category component */}
-      {renderCategoryComponent()}
-
-      <hr />
-      <Outlet />
-    </div>
-  );
-};
-
-// New component to render a list of cards
-const CardList = ({ items, onAddToCart, onAddToWishlist }) => {
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-      {items.map((item, index) => (
-        <Card
-          key={index}
-          item={item}
-          onAddToCart={onAddToCart}
-          onAddToWishlist={onAddToWishlist}
-        />
-      ))}
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+        {products.map((item, index) => (
+          <Card
+            key={index}
+            item={item}
+            onAddToWishlist={handleAddToWishlist}
+            onDeleteFromWishlist={handleDeleteFromWishlist}
+          />
+        ))}
+      </div>
     </div>
   );
 };
