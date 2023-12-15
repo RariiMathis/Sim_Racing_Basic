@@ -78,6 +78,7 @@ const SimRacingDashboard = () => {
             item={item}
             onAddToWishlist={handleAddToWishlist}
             onDeleteFromWishlist={handleDeleteFromWishlist}
+            isInWishlist={selectedCategory === 'wishlist'} // Pass the isInWishlist prop
           />
         ))}
       </div>
