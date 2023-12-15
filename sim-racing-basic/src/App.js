@@ -1,18 +1,17 @@
-// src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SimRacingLogin from './components/SimRacingLogin';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SimRacingDashboard from './components/SimRacingDashboard';
+import SimRacingLogin from './components/SimRacingLogin';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/dashboard" element={<SimRacingDashboard />} />
-        <Route path="/" element={<SimRacingLogin />} />
+        <Route path="/simracinglogin" element={<SimRacingLogin />} />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

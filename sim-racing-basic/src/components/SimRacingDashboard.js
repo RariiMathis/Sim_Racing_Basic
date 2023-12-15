@@ -1,12 +1,13 @@
-// src/components/SimRacingDashboard.js
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
 import Card from './Card';
 
 const SimRacingDashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,6 +58,12 @@ const SimRacingDashboard = () => {
     }
   };
 
+  const handleLogout = () => {
+    // Implement your logout logic here
+    // For example, clear user authentication state and navigate to login
+    navigate('/simracinglogin');
+  };
+
   return (
     <div>
       <h2>Welcome to the Sim Racing Store!</h2>
@@ -65,6 +72,7 @@ const SimRacingDashboard = () => {
         <button onClick={() => handleCategorySelect('pedals')}>Pedals</button>
         <button onClick={() => handleCategorySelect('cockpits')}>Cockpits</button>
         <button onClick={() => handleCategorySelect('wishlist')}>Wish List</button>
+        <button onClick={handleLogout}>Logout</button> {/* Add Logout button */}
       </nav>
 
       {/* Search Bar */}
@@ -78,7 +86,7 @@ const SimRacingDashboard = () => {
             item={item}
             onAddToWishlist={handleAddToWishlist}
             onDeleteFromWishlist={handleDeleteFromWishlist}
-            isInWishlist={selectedCategory === 'wishlist'} // Pass the isInWishlist prop
+            showDeleteButton={selectedCategory === 'wishlist'} // Conditionally show delete button
           />
         ))}
       </div>
