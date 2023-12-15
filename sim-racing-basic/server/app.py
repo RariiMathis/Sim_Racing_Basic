@@ -32,7 +32,7 @@ class UserResource(Resource):
         else:
             users = User.query.all()
             user_data = [{'user_id': user.user_id, 'username': user.username, 'email': user.email} for user in users]
-            return {'users': user_data}
+            return user_data
 
     def post(self):
         args = user_parser.parse_args()
@@ -60,7 +60,7 @@ class WheelResource(Resource):
         else:
             wheels = Wheel.query.all()
             wheel_data = [{'id': wheel.id, 'user_id': wheel.user_id, 'brand': wheel.brand, 'img': wheel.img, 'model': wheel.model, 'price': wheel.price} for wheel in wheels]
-            return {'wheels': wheel_data}
+            return wheel_data
 
     def post(self):
         args = product_parser.parse_args()
@@ -80,7 +80,7 @@ class PedalsResource(Resource):
         else:
             all_pedals = Pedals.query.all()
             pedals_data = [{'pedals_id': pedals.pedals_id, 'user_id': pedals.user_id, 'brand': pedals.brand, 'img': pedals.img, 'model': pedals.model, 'price': pedals.price} for pedals in all_pedals]
-            return {'pedals': pedals_data}
+            return pedals_data
 
     def post(self):
         args = product_parser.parse_args()
@@ -100,7 +100,7 @@ class SimCockpitResource(Resource):
         else:
             all_cockpits = SimCockpit.query.all()
             cockpit_data = [{'cockpit_id': cockpit.cockpit_id, 'user_id': cockpit.user_id, 'brand': cockpit.brand, 'img': cockpit.img, 'model': cockpit.model, 'price': cockpit.price} for cockpit in all_cockpits]
-            return {'sim_cockpits': cockpit_data}
+            return cockpit_data
 
     def post(self):
         args = product_parser.parse_args()
