@@ -10,7 +10,6 @@ const Cockpits = ({ products }) => {
         <div key={index}>
           <h3>{cockpit.title}</h3>
           <p>{cockpit.description}</p>
-          {/* Assuming 'modelImage' and 'price' are properties in your data */}
           <img src={cockpit.img} alt="Cockpit Model" />
           <p>Price: ${cockpit.price}</p>
         </div>
@@ -18,5 +17,6 @@ const Cockpits = ({ products }) => {
     </div>
   );
 };
+
 
 export default Cockpits;
