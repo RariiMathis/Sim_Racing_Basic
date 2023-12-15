@@ -7,7 +7,15 @@ import Pedals from './Pedals';
 import Wheels from './Wheels';
 import Wishlist from './WishList';
 
+// Define API base URL
+const API_BASE_URL = 'http://localhost:5000/api/';
+
 const SimRacingDashboard = () => {
+  // State for selected category, products, and loading status
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   // Styles
   const buttonStyle = {
     padding: '10px 20px',
@@ -37,32 +45,14 @@ const SimRacingDashboard = () => {
     backgroundColor: '#fff',
   };
 
-  // State for selected category and products
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [products, setProducts] = useState([]);
-
   useEffect(() => {
     // Fetch data from the backend when the component mounts or category changes
     const fetchData = async () => {
       if (selectedCategory) {
         try {
-          let response;
-          switch (selectedCategory) {
-            case 'wheels':
-              response = await axios.get('http://localhost:5000/api/wheels'); // Update the URL
-              break;
-            case 'pedals':
-              response = await axios.get('http://localhost:5000/api/pedals'); 
-              break;
-            case 'cockpits':
-              response = await axios.get('http://localhost:5000/api/cockpits'); 
-              break;
-            case 'wishlist':
-              response = await axios.get('http://localhost:5000/api/wishlist'); 
-              break;
-            default:
-              console.error('Invalid category');
-          }
+          setLoading(true);
+
+          const response = await axios.get(`${API_BASE_URL}${selectedCategory}`);
 
           // Log fetched data
           console.log('Fetched data:', response.data);
@@ -70,6 +60,11 @@ const SimRacingDashboard = () => {
           setProducts(response.data);
         } catch (error) {
           console.error('Error fetching data:', error);
+          // Display a user-friendly error message
+          // You might want to set an error state for more advanced error handling
+          alert('Error fetching data. Please try again.');
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -77,25 +72,23 @@ const SimRacingDashboard = () => {
     fetchData();
   }, [selectedCategory]);
 
-  
-
-  const handleCategorySelect = async (category) => {
+  const handleCategorySelect = (category) => {
     setSelectedCategory(category);
-  }; 
-  
-  // Display cards based on selected category
-  const renderCards = () => {
-    if (products.length === 0) {
-      return <p>No products available for the selected category.</p>;
-    }
+  };
 
-    return products.map((item, index) => (
-      <div key={index} style={cardStyle}>
-        <h3>{item.title}</h3>
-        <p>{item.description}</p>
-        <button>Add to {selectedCategory === 'wishlist' ? 'Wish List' : 'Cart'}</button>
-      </div>
-    ));
+  const renderCategoryComponent = () => {
+    switch (selectedCategory) {
+      case 'wheels':
+        return <Wheels products={products} />;
+      case 'pedals':
+        return <Pedals products={products} />;
+      case 'cockpits':
+        return <Cockpits products={products} />;
+      case 'wishlist':
+        return <Wishlist products={products} />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -120,12 +113,28 @@ const SimRacingDashboard = () => {
       <input type="text" placeholder="Search for products" style={searchBarStyle} />
 
       {/* Render the selected category component */}
-      {selectedCategory === 'wheels' && <Wheels />}
-      {selectedCategory === 'pedals' && <Pedals />}
-      {selectedCategory === 'cockpits' && <Cockpits />}
-      {selectedCategory === 'wishlist' && <Wishlist />}
+      {renderCategoryComponent()}
 
       <hr />
+      {products.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+          {products.map((item, index) => (
+            <div key={index} style={{ ...cardStyle, width: '18%', marginBottom: '20px' }}>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+
+              {/* Render all data for each object */}
+              {Object.entries(item).map(([key, value]) => (
+                <p key={key}>
+                  <strong>{key}:</strong> {value}
+                </p>
+              ))}
+
+              <button>Add to {selectedCategory === 'wishlist' ? 'Wish List' : 'Cart'}</button>
+            </div>
+          ))}
+        </div>
+      )}
       <Outlet />
     </div>
   );

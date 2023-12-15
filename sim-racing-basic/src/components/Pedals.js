@@ -1,30 +1,16 @@
 // src/components/Pedals.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 
-const Pedals = () => {
-  const [pedalsData, setPedalsData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:5000/api/pedals');
-        setPedalsData(response.data);
-      } catch (error) {
-        console.error('Error fetching pedals data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+const Pedals = ({ products }) => {
   return (
     <div>
       <h2>Pedals</h2>
-      {pedalsData.map((pedal, index) => (
+      {products.map((pedal, index) => (
         <div key={index}>
           <h3>{pedal.title}</h3>
           <p>{pedal.description}</p>
+          <img src={pedal.img} alt="Pedal Model" />
+          <p>Price: ${pedal.price}</p>
         </div>
       ))}
     </div>
