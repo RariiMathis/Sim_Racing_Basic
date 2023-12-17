@@ -26,8 +26,12 @@ const Card = ({ item, onAddToWishlist, onDeleteFromWishlist, isInWishlist }) => 
       <p>Model: {item.model}</p>
       <p>Price: ${item.price}</p>
 
-      {isInWishlist && <button onClick={handleDeleteFromWishlist}>Remove from Wishlist</button>}
-      {!isInWishlist && <button onClick={handleAddToWishlist}>Add to Wishlist</button>}
+      {/* Conditional rendering based on wishlist status */}
+      {isInWishlist ? (
+        <button onClick={handleDeleteFromWishlist}>Remove from Wishlist</button>
+      ) : (
+        <button onClick={handleAddToWishlist}>Add to Wishlist</button>
+      )}
     </div>
   );
 };

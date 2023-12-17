@@ -1,13 +1,14 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
+import { useNavigate } from 'react-router-dom';
 import Card from './Card';
 
 const SimRacingDashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,8 +50,7 @@ const SimRacingDashboard = () => {
   const handleDeleteFromWishlist = async (item) => {
     try {
       await axios.delete(`http://localhost:5000/api/wishlist/${item.id}`);
-      const updatedWishlist = products.filter((product) => product.id !== item.id);
-      setProducts(updatedWishlist);
+      setProducts((prevProducts) => prevProducts.filter((product) => product.id !== item.id));
       alert(`${item.title} removed from Wishlist`);
     } catch (error) {
       console.error('Error deleting from wishlist:', error);
@@ -59,10 +59,17 @@ const SimRacingDashboard = () => {
   };
 
   const handleLogout = () => {
-    // Implement your logout logic here
-    // For example, clear user authentication state and navigate to login
     navigate('/simracinglogin');
   };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Filter products based on the search term
+  const filteredProducts = products.filter((product) =>
+    product.brand.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
@@ -72,21 +79,26 @@ const SimRacingDashboard = () => {
         <button onClick={() => handleCategorySelect('pedals')}>Pedals</button>
         <button onClick={() => handleCategorySelect('cockpits')}>Cockpits</button>
         <button onClick={() => handleCategorySelect('wishlist')}>Wish List</button>
-        <button onClick={handleLogout}>Logout</button> {/* Add Logout button */}
+        <button onClick={handleLogout}>Logout</button>
       </nav>
 
       {/* Search Bar */}
-      <input type="text" placeholder="Search for products" />
+      <input
+        type="text"
+        placeholder="Search for products"
+        value={searchTerm}
+        onChange={handleSearch}
+      />
 
       {/* Render the selected category component */}
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-        {products.map((item, index) => (
+        {filteredProducts.map((item, index) => (
           <Card
             key={index}
             item={item}
             onAddToWishlist={handleAddToWishlist}
             onDeleteFromWishlist={handleDeleteFromWishlist}
-            showDeleteButton={selectedCategory === 'wishlist'} // Conditionally show delete button
+            isInWishlist={selectedCategory === 'wishlist'}
           />
         ))}
       </div>
