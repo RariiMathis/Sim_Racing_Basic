@@ -1,106 +1,170 @@
-// src/components/SimRacingDashboard.js
-import React, { useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+// Import necessary dependencies
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Card from './Card';
+import Wishlist from './WishList';
 
 const SimRacingDashboard = () => {
-  const buttonStyle = {
-    padding: '10px 20px',
-    backgroundColor: '#3498db',
-    color: '#fff',
-    textDecoration: 'none',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-  };
+  const [selectedCategory, setSelectedCategory] = useState('welcome');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
-  const searchBarStyle = {
-    width: '50%', // Adjust the width as needed
-    padding: '10px',
-    margin: '10px auto',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-  };
+ 
+  const [user, setUser] = useState({
+    username: 'Driver'
+  });
 
-  const cardStyle = {
-    padding: '20px',
-    margin: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#fff',
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      if (selectedCategory !== 'welcome') {
+        try {
+          setLoading(true);
+          const response = await axios.get(`http://localhost:5000/api/${selectedCategory}`);
+          setProducts(response.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          alert('Error fetching data. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
 
-  // State for selected category
-  const [selectedCategory, setSelectedCategory] = useState(null);
+    fetchData();
+  }, [selectedCategory]);
 
-  // Function to handle category selection
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
   };
 
-  // Cards data for different categories
-  const cardsData = {
-    wheels: [
-      { title: 'Wheel Product 1', description: 'Description of Wheel Product 1' },
-      { title: 'Wheel Product 2', description: 'Description of Wheel Product 2' },
-    ],
-    pedals: [
-      { title: 'Pedal Product 1', description: 'Description of Pedal Product 1' },
-      { title: 'Pedal Product 2', description: 'Description of Pedal Product 2' },
-    ],
-    cockpits: [
-      { title: 'Cockpit Product 1', description: 'Description of Cockpit Product 1' },
-      { title: 'Cockpit Product 2', description: 'Description of Cockpit Product 2' },
-    ],
-    wishlist: [
-      { title: 'Wishlist Item 1', description: 'Description of Wishlist Item 1' },
-      { title: 'Wishlist Item 2', description: 'Description of Wishlist Item 2' },
-    ],
+  const handleAddToWishlist = async (item) => {
+    try {
+      await axios.post('http://localhost:5000/api/wishlist', item);
+      alert(`${item.title} added to Wishlist`);
+    } catch (error) {
+      console.error('Error adding to wishlist:', error);
+      alert('Error adding to Wishlist. Please try again.');
+    }
   };
 
+  const handleDeleteFromWishlist = async (item) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/wishlist/${item.id}`);
+      setProducts((prevProducts) => prevProducts.filter((product) => product.id !== item.id));
+      alert(`${item.title} removed from Wishlist`);
+    } catch (error) {
+      console.error('Error deleting from wishlist:', error);
+      alert('Error removing from Wishlist. Please try again.');
+    }
+  };
+
+  const handleLogout = () => {
+    navigate('/simracinglogin');
+  };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredProducts = products.filter((product) =>
+    product.brand.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div>
-      <h2>Welcome to the Sim Racing Store!</h2>
-      <nav style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
-        <button style={buttonStyle} onClick={() => handleCategorySelect('wheels')}>
-          Wheels
-        </button>
-        <button style={buttonStyle} onClick={() => handleCategorySelect('pedals')}>
-          Pedals
-        </button>
-        <button style={buttonStyle} onClick={() => handleCategorySelect('cockpits')}>
-          Cockpits
-        </button>
-        <button style={buttonStyle} onClick={() => handleCategorySelect('wishlist')}>
-          Wish List
-        </button>
-      </nav>
+    <div style={{ 
+      textAlign: 'center',
+      background: 'linear-gradient(to bottom, #3498db, #ffffff)'
+    }}>
+      <img src="https://traxion.gg/wp-content/uploads/2022/05/cars.jpg" alt="Race Car" style={{ width: '100%', maxHeight: '250px', objectFit: 'cover', marginBottom: '5px' }} />
+      <h2>Welcome to the Sim Racing Store, {user.username}!</h2>
 
-      {/* Search Bar */}
-      <input type="text" placeholder="Search for products" style={searchBarStyle} />
-
-      {/* Display cards based on selected category */}
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {selectedCategory &&
-          cardsData[selectedCategory].map((item, index) => (
-            <div key={index} style={cardStyle}>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-              <button>Add to {selectedCategory === 'wishlist' ? 'Wish List' : 'Cart'}</button>
-            </div>
-          ))}
+      {/* Tab Container */}
+      <div style={{ borderBottom: '1px solid #ccc', display: 'flex', justifyContent: 'center' }}>
+        {['welcome', 'wheels', 'pedals', 'cockpits', 'wishlist'].map((category) => (
+          <button
+            key={category}
+            onClick={() => handleCategorySelect(category)}
+            className={selectedCategory === category ? 'active-tab' : ''}
+            style={{
+              width: '150px',
+              height: '50px',
+              backgroundColor: getCategoryColor(category),
+              color: '#fff',
+              margin: '0 10px',
+            }}
+          >
+            {capitalizeFirstLetter(category)}
+          </button>
+        ))}
+        <button onClick={handleLogout} style={{ width: '80px', height: '40px', backgroundColor: '#34495e', color: '#fff', marginLeft: '10px' }}>
+          Logout
+        </button>
+        {/* Show the username next to the logout button */}
+        <span style={{ marginLeft: '10px', color: '#fff', fontSize: '16px', fontWeight: 'bold' }}>{user.username}</span>
       </div>
 
-      <hr />
-      <Outlet />
+      {/* Search Bar */}
+      <input
+        type="text"
+        placeholder="Search for products"
+        value={searchTerm}
+        onChange={handleSearch}
+        style={{ width: '300px', marginBottom: '5px' }}
+      />
+
+      {/* Render the selected category component */}
+      {selectedCategory === 'welcome' ? (
+        <div>
+          <p>This application is made to help everyone starting out into Sim Racing to learn what equipment to buy and the path to the right upgrade.</p>
+          <p>Here are some of the equipment to buy at every price level.</p>
+          <p>Please take a look at what we have in our store.</p>
+       
+        </div>
+      ) : (
+        <div>
+          <h3>Products in the {capitalizeFirstLetter(selectedCategory)} category:</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+            {filteredProducts.map((item, index) => (
+              <Card
+                key={index}
+                item={item}
+                onAddToWishlist={handleAddToWishlist}
+                onDeleteFromWishlist={handleDeleteFromWishlist}
+                isInWishlist={selectedCategory === 'wishlist'}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Render Wishlist component at the bottom */}
+      {selectedCategory === 'wishlist' && <Wishlist />}
     </div>
   );
 };
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function getCategoryColor(category) {
+  switch (category) {
+    case 'wheels':
+      return '#3498db';
+    case 'pedals':
+      return '#2ecc71';
+    case 'cockpits':
+      return '#e74c3c';
+    case 'wishlist':
+      return '#f39c12';
+    default:
+      return '#f8825d';
+  }
+}
+
 export default SimRacingDashboard;
-
-
-
 
 

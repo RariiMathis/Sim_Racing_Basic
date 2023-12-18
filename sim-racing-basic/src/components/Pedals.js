@@ -1,11 +1,18 @@
 // src/components/Pedals.js
 import React from 'react';
 
-const Pedals = () => {
+const Pedals = ({ products }) => {
   return (
     <div>
       <h2>Pedals</h2>
-      <p>Explore our range of racing pedals for a realistic driving experience.</p>
+      {products.map((pedal, index) => (
+        <div key={index}>
+          <h3>{pedal.title}</h3>
+          <p>{pedal.description}</p>
+          <img src={pedal.img} alt="Pedal Model" />
+          <p>Price: ${pedal.price}</p>
+        </div>
+      ))}
     </div>
   );
 };

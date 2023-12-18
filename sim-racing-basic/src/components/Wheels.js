@@ -1,11 +1,18 @@
 // src/components/Wheels.js
 import React from 'react';
 
-const Wheels = () => {
+const Wheels = ({ products }) => {
   return (
     <div>
       <h2>Wheels</h2>
-      <p>Discover our selection of racing wheels.</p>
+      {products.map((wheel, index) => (
+        <div key={index}>
+          <h3>{wheel.title}</h3>
+          <p>{wheel.description}</p>
+          <img src={wheel.img} alt="Wheel Model" />
+          <p>Price: ${wheel.price}</p>
+        </div>
+      ))}
     </div>
   );
 };
