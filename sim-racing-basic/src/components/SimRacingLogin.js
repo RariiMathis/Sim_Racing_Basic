@@ -72,14 +72,14 @@ const SimRacingLogin = () => {
         <img
           src="https://s100.iracing.com/wp-content/uploads/2020/12/EordlGCWMAAOFOL.jpeg"  
           alt="Image 1"
-          style={{ position: 'absolute', right: -310, bottom: -70, width: '175%', height: '100%', objectFit: 'cover', marginBottom: '25px' }}
+          style={{ position: 'absolute', right: -255, bottom: -70, width: '140%', height: '100%', objectFit: 'cover', marginBottom: '25px' }}
         />
       </div>
 
       {/* Content in the center */}
       <div style={{ marginLeft: '320px', marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {/* Banner with Race Car Image */}
-        <img src="https://traxion.gg/wp-content/uploads/2022/05/cars.jpg" alt="R8" style={{ width: '145%', maxHeight: '300px', objectFit: 'cover', marginBottom: '20px' }} />
+        <img src="https://traxion.gg/wp-content/uploads/2022/05/cars.jpg" alt="R8" style={{ width: '140%', maxHeight: '300px', objectFit: 'cover', marginBottom: '20px' }} />
 
         <h1>Your one stop to start your Sim Racing Car</h1>
 
@@ -106,30 +106,33 @@ const SimRacingLogin = () => {
         <p>and not wasting money on things that things that did not add to the experience.</p>
         <p>With that all said let's start your career</p>
         <h2>{isCreatingAccount ? 'Create Account' : 'Sim Racing Basic'}</h2>
-        <label style={{ marginBottom: '20px' }}>
-          Driver's Name:
-          <input type="text" value={driverName} onChange={(e) => setDriverName(e.target.value)} />
-        </label>
-        {isCreatingAccount && (
-          <>
-            <label style={{ marginBottom: '10px' }}>
-              Email:
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </label>
-          </>
-        )}
-        <label style={{ marginBottom: '30px' }}>
-          Driver's Password:
-          <input type="password" value={driverPassword} onChange={(e) => setDriverPassword(e.target.value)} />
-        </label>
-        {isCreatingAccount && (
-          <>
-            <label style={{ marginBottom: '50px' }}>
-              Confirm Password:
-              <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-            </label>
-          </>
-        )}
+        <label style={{ marginBottom: '20px', display: 'block', textAlign: 'center', width: '100%' }}>
+  Driver's Name:
+  <input type="text" value={driverName} onChange={(e) => setDriverName(e.target.value)} style={{ width: '19%', marginTop: '5px' }} />
+</label>
+
+{isCreatingAccount && (
+  <>
+    <label style={{ marginBottom: '20px', display: 'block', textAlign: 'center', width: '100%' }}>
+      Email:
+      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={{ width: '15%', marginTop: '5px' }} />
+    </label>
+  </>
+)}
+
+<label style={{ marginBottom: '20px', display: 'block', textAlign: 'center', width: '100%' }}>
+  Driver's Password:
+  <input type="password" value={driverPassword} onChange={(e) => setDriverPassword(e.target.value)} style={{ width: '20%', marginTop: '5px' }} />
+</label>
+
+{isCreatingAccount && (
+  <>
+    <label style={{ marginBottom: '20px', display: 'block', textAlign: 'center', width: '100%' }}>
+      Confirm Password:
+      <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={{ width: '20%', marginTop: '5px' }} />
+    </label>
+  </>
+)}
         <br />
         <button onClick={handleAction} style={{ width: '100px', marginBottom: '10px' }}>
           {isCreatingAccount ? 'Create Account' : 'Login'}
