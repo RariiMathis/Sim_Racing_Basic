@@ -7,6 +7,9 @@ from flask_cors import CORS
 from config import app, db, api, CORS, Migrate
 from models import User, Wheel, Pedals, SimCockpit, Wishlist
 
+# Initialize Flask-Migrate
+migrate = Migrate(app, db)
+
 # Create tables
 with app.app_context():
     db.create_all()
@@ -53,12 +56,19 @@ class UserResource(Resource):
             return {'message': 'Password must be at least 8 characters long'}, 400
 
         # Hash the password before storing it
-        hashed_password = generate_password_hash(args['password'], method='sha256')
+        hashed_password = generate_password_hash(args['password'], method='pbkdf2:sha256')
+
 
         new_user = User(username=args['username'], email=args['email'], _password_hash=hashed_password)
         db.session.add(new_user)
-        db.session.commit()
-        return {'message': 'User created successfully'}, 201
+
+        try:
+            db.session.commit()
+            return {'message': 'User created successfully'}, 201
+        except Exception as e:
+            print(f"Error committing to the database: {e}")
+            db.session.rollback()
+            return {'error': 'Internal server error while saving to the database'}, 500
 
 class WheelResource(Resource):
     def get(self, wheel_id=None):
@@ -137,15 +147,26 @@ class WishlistResource(Resource):
         args = wishlist_parser.parse_args()
         new_wishlist_item = Wishlist(user_id=args['user_id'], brand=args['brand'], img=args['img'], model=args['model'], price=args['price'])
         db.session.add(new_wishlist_item)
-        db.session.commit()
-        return {'message': 'Item added to wishlist successfully'}, 201
+        
+        try:
+            db.session.commit()
+            return {'message': 'Item added to wishlist successfully'}, 201
+        except Exception as e:
+            print(f"Error committing to the database: {e}")
+            db.session.rollback()
+            return {'error': 'Internal server error while saving to the database'}, 500
 
     def delete(self, wishlist_id):
         wishlist_item = Wishlist.query.get(wishlist_id)
         if wishlist_item:
-            db.session.delete(wishlist_item)
-            db.session.commit()
-            return {'message': 'Wishlist item deleted successfully'}, 200
+            try:
+                db.session.delete(wishlist_item)
+                db.session.commit()
+                return {'message': 'Wishlist item deleted successfully'}, 200
+            except Exception as e:
+                print(f"Error committing to the database: {e}")
+                db.session.rollback()
+                return {'error': 'Internal server error while deleting from the database'}, 500
         else:
             return {'error': 'Wishlist item not found'}, 404
 

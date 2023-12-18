@@ -1,3 +1,4 @@
+// Import necessary dependencies
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -5,22 +6,23 @@ import Card from './Card';
 import Wishlist from './WishList';
 
 const SimRacingDashboard = () => {
-  const [selectedCategory, setSelectedCategory] = useState('welcome'); // 'welcome' is the default tab
+  const [selectedCategory, setSelectedCategory] = useState('welcome');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+
+ 
+  const [user, setUser] = useState({
+    username: 'Driver'
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       if (selectedCategory !== 'welcome') {
         try {
           setLoading(true);
-
           const response = await axios.get(`http://localhost:5000/api/${selectedCategory}`);
-
-          console.log('Fetched data:', response.data);
-
           setProducts(response.data);
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -72,11 +74,12 @@ const SimRacingDashboard = () => {
   );
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      {/* Banner with Race Car Image */}
+    <div style={{ 
+      textAlign: 'center',
+      background: 'linear-gradient(to bottom, #3498db, #ffffff)'
+    }}>
       <img src="https://traxion.gg/wp-content/uploads/2022/05/cars.jpg" alt="Race Car" style={{ width: '100%', maxHeight: '250px', objectFit: 'cover', marginBottom: '5px' }} />
-
-      <h2>Welcome to the Sim Racing Store!</h2>
+      <h2>Welcome to the Sim Racing Store, {user.username}!</h2>
 
       {/* Tab Container */}
       <div style={{ borderBottom: '1px solid #ccc', display: 'flex', justifyContent: 'center' }}>
@@ -99,6 +102,8 @@ const SimRacingDashboard = () => {
         <button onClick={handleLogout} style={{ width: '80px', height: '40px', backgroundColor: '#34495e', color: '#fff', marginLeft: '10px' }}>
           Logout
         </button>
+        {/* Show the username next to the logout button */}
+        <span style={{ marginLeft: '10px', color: '#fff', fontSize: '16px', fontWeight: 'bold' }}>{user.username}</span>
       </div>
 
       {/* Search Bar */}
@@ -113,11 +118,10 @@ const SimRacingDashboard = () => {
       {/* Render the selected category component */}
       {selectedCategory === 'welcome' ? (
         <div>
-          <p>
-            This application is made to help everyone starting out into Sim Racing to learn what equipment to buy and the path to the right upgrade.
-          </p>
+          <p>This application is made to help everyone starting out into Sim Racing to learn what equipment to buy and the path to the right upgrade.</p>
           <p>Here are some of the equipment to buy at every price level.</p>
           <p>Please take a look at what we have in our store.</p>
+       
         </div>
       ) : (
         <div>
@@ -140,7 +144,7 @@ const SimRacingDashboard = () => {
       {selectedCategory === 'wishlist' && <Wishlist />}
     </div>
   );
-}
+};
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -157,8 +161,10 @@ function getCategoryColor(category) {
     case 'wishlist':
       return '#f39c12';
     default:
-      return '#fff';
+      return '#f8825d';
   }
 }
 
 export default SimRacingDashboard;
+
+

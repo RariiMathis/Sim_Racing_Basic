@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Card = ({ imgSrc, brand, model, price }) => (
@@ -21,14 +22,28 @@ const SimRacingLogin = () => {
     setIsCreatingAccount(!isCreatingAccount);
   };
 
-  const handleAction = () => {
+  const handleAction = async () => {
     if (isCreatingAccount) {
       if (driverName && driverPassword && confirmPassword === driverPassword && email) {
-        navigate('/dashboard');
+        try {
+          // Make a POST request to the server
+          await axios.post('http://127.0.0.1:5000/api/users', {
+            username: driverName,
+            email: email,
+            password: driverPassword,
+          });
+
+          // If the request is successful, navigate to the dashboard
+          navigate('/dashboard');
+        } catch (error) {
+          console.error('Error creating account:', error);
+          alert('Error creating account. Please try again.');
+        }
       } else {
         alert('Invalid account information. Please make sure all fields are filled and passwords match.');
       }
     } else {
+      // Handle login logic here
       if (driverName && driverPassword) {
         navigate('/dashboard');
       } else {
@@ -53,7 +68,14 @@ const SimRacingLogin = () => {
   ];
 
   return (
-    <div style={{ position: 'relative', height: '100vh' }}>
+    <div style={{ 
+      textAlign: 'center',
+      background: 'linear-gradient(to bottom, #3498db, #ffffff)', 
+      minHeight: '100vh',  
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
       {/* Video component in the lower-left corner */}
       <div style={{ position: 'absolute', left: 0, bottom: -40, width: '200px', height: '325px', marginBottom: '20px' }}>
         <iframe
