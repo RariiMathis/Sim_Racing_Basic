@@ -11,32 +11,42 @@ const Card = ({ item, onAddToWishlist, onDeleteFromWishlist, isInWishlist }) => 
   };
 
   return (
-    <div style={cardStyle}>
-      <img src={item.img} alt={item.title} style={imageStyle} />
-      <h3>{item.title}</h3>
-      <p>{item.description}</p>
+    <div style={cardContainerStyle}>
+      <div style={cardStyle}>
+        <img src={item.img} alt={item.brand} style={imageStyle} />
+        <h3>{item.brand}</h3>
+        <p>{item.description}</p>
 
-      {/* Additional details based on product type */}
-      {item.type === 'wheel' && <p>Type: {item.type}</p>}
-      {item.type === 'pedal' && <p>Number of Pedals: {item.numPedals}</p>}
-      {item.type === 'cockpit' && <p>Compatibility: {item.compatibility}</p>}
+        {/* Additional details based on product type */}
+        {item.type === 'wheel' && <p>Type: {item.type}</p>}
+        {item.type === 'pedal' && <p>Number of Pedals: {item.numPedals}</p>}
+        {item.type === 'cockpit' && <p>Compatibility: {item.compatibility}</p>}
 
-      {/* Display Brand, Model, and Price */}
-      <p>Brand: {item.brand}</p>
-      <p>Model: {item.model}</p>
-      <p>Price: ${item.price}</p>
+        {/* Display Brand, Model, and Price */}
+        <p>Brand: {item.brand}</p>
+        <p>Model: {item.model}</p>
+        <p>Price: ${item.price}</p>
 
-      {/* Conditional rendering based on wishlist status */}
-      {isInWishlist ? (
-        <button onClick={handleDeleteFromWishlist}>Remove from Wishlist</button>
-      ) : (
-        <button onClick={handleAddToWishlist}>Add to Wishlist</button>
-      )}
+        {/* Conditional rendering based on wishlist status */}
+        {isInWishlist ? (
+          <button onClick={handleDeleteFromWishlist}>Remove from Wishlist</button>
+        ) : (
+          <button onClick={handleAddToWishlist}>Add to Wishlist</button>
+        )}
+      </div>
     </div>
   );
 };
 
+const cardContainerStyle = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-between',
+};
+
 const cardStyle = {
+  flex: '0 0 90%',
+  boxSizing: 'border-box',
   padding: '20px',
   margin: '10px',
   border: '1px solid #ddd',
@@ -46,9 +56,9 @@ const cardStyle = {
 };
 
 const imageStyle = {
-  maxWidth: '100%',
+  maxWidth: '75%',
   maxHeight: '200px',
-  marginBottom: '10px',
+  marginBottom: '5px',
 };
 
 export default Card;

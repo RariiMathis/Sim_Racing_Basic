@@ -1,4 +1,3 @@
-// src/components/SimRacingLogin.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,39 +34,41 @@ const SimRacingLogin = () => {
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+      {/* Banner with Race Car Image */}
+      <img src="https://traxion.gg/wp-content/uploads/2022/05/cars.jpg" alt="R8" style={{ width: '100%', maxHeight: '300px', objectFit: 'cover', marginBottom: '20px' }} />
+
+      <h1>Your one stop to start your Sim Racing Car</h1>
+
       <h2>{isCreatingAccount ? 'Create Account' : 'Sim Racing Basic'}</h2>
-      <label>
+      <label style={{ marginBottom: '20px' }}>
         Driver's Name:
         <input type="text" value={driverName} onChange={(e) => setDriverName(e.target.value)} />
       </label>
-      <br />
       {isCreatingAccount && (
         <>
-          <label>
+          <label style={{ marginBottom: '10px' }}>
             Email:
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </label>
-          <br />
         </>
       )}
-      <label>
+      <label style={{ marginBottom: '30px' }}>
         Driver's Password:
         <input type="password" value={driverPassword} onChange={(e) => setDriverPassword(e.target.value)} />
       </label>
       {isCreatingAccount && (
         <>
-          <br />
-          <label>
+          <label style={{ marginBottom: '50px' }}>
             Confirm Password:
             <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
           </label>
         </>
       )}
       <br />
-      <button onClick={handleAction}>{isCreatingAccount ? 'Create Account' : 'Login'}</button>
+      <button onClick={handleAction} style={{ width: '100px', marginBottom: '10px' }}>{isCreatingAccount ? 'Create Account' : 'Login'}</button>
       <br />
-      <button onClick={handleToggleMode}>
+      <button onClick={handleToggleMode} style={{ marginTop: '5px' }}>
         {isCreatingAccount ? 'Already have an account? Login' : 'Create Account'}
       </button>
     </div>
