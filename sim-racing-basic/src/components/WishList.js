@@ -24,11 +24,41 @@ const Wishlist = () => {
     fetchData();
   }, []);
 
+  // Array of link data
+  const links = [
+    {
+      title: "Visit Logitech's Website",
+      description: "Explore a variety of products on Logitech's official website.",
+      url: 'https://www.logitech.com/en-us',
+    },
+    {
+      title: "Visit Fanatec's Website",
+      description: "Discover high-quality sim racing equipment on Fanatec's official website.",
+      url: 'https://fanatec.com/us-en/',
+    },
+    {
+      title: "Visit Playseat's Website",
+      description: "Immersed in the thrill of sim racing equipment on Playseat's official website.",
+      url: 'https://playseat.com/',
+    },
+  ];
+
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ display: 'flex' }}>
+      {/* Map over the array of links to generate cards */}
+      {links.map((link, index) => (
+        <div key={index} style={{ width: '300px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px', marginRight: '20px' }}>
+          <h3>{link.title}</h3>
+          <p>{link.description}</p>
+          <a href={link.url} target="_blank" rel="noopener noreferrer">
+            Visit Website
+          </a>
+        </div>
+      ))}
+
       <div style={{ marginBottom: '60px' }}>
         {/* Wishlist items */}
-        <h3>Cost of all items</h3>
+        <h3>Wishlist</h3>
         {wishlistData.length === 0 ? (
           <p>No items in the wishlist</p>
         ) : (
@@ -37,11 +67,18 @@ const Wishlist = () => {
               <h3>{item.title}</h3>
               <p>{item.description}</p>
               <p>Price: ${item.price.toFixed(2)}</p>
+              {/* Add a dynamic link to the product's website */}
+              {item.website && (
+                 <a href={item.website} target="_blank" rel="noopener noreferrer">
+                  View on Website
+                </a>
+              )}
+              <hr style={{ margin: '10px 0' }} />
             </div>
           ))
         )}
-        <hr style={{ margin: '10px 0' }} />
       </div>
+
       {/* Card for Total Price */}
       <div
         style={{
@@ -63,7 +100,3 @@ const Wishlist = () => {
 };
 
 export default Wishlist;
-
-
-
-
