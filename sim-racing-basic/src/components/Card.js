@@ -40,19 +40,22 @@ const Card = ({ item, onAddToWishlist, onDeleteFromWishlist, isInWishlist }) => 
 
 const cardContainerStyle = {
   display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'space-between',
+  flexDirection: 'column',
+  alignItems: 'center',
 };
 
 const cardStyle = {
-  flex: '0 0 90%',
+  flex: '0 0 calc(100% - 20px)', // Set a fixed width for each card (adjust as needed)
   boxSizing: 'border-box',
   padding: '20px',
   margin: '10px',
   border: '1px solid #ddd',
   borderRadius: '4px',
   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  backgroundColor: '#fff',
+  backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent white background
+  height: '300px', // Set a fixed height for each card (adjust as needed)
+  overflow: 'hidden', // Ensure content doesn't affect the height
+  textAlign: 'center',
 };
 
 const imageStyle = {
