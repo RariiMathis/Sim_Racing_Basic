@@ -122,11 +122,11 @@ const SimRacingDashboard = () => {
     <p>Here are some of the equipment to buy at every price level.</p>
     <p>Please take a look at what we have in our store.</p>
     <p>
-      {/* <a href="https://fanatec.com/us-en/" target="_blank" rel="noopener noreferrer"></a> */}
+     
         <img src='https://www.logolynx.com/images/logolynx/37/3762e44a9d2cdb9fabee6e93cf954b93.jpeg' alt='Fanatec' />
     </p>  
     <p>
-    {/* <a href="https://www.logitech.com/en-us" target="_blank" rel="noopener noreferrer"></a> */}
+    <a href="https://www.logitech.com/en-us" target="_blank" rel="noopener noreferrer"></a>
       <img src='https://pluspng.com/img-png/logitech-logo-png-logitech-g-brands-of-the-world-img-vector-logos-and-195x195.png' alt='Logitech' />
     </p>
     <p>
