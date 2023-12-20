@@ -80,7 +80,7 @@ const SimRacingLogin = () => {
 >
 
       {/* Video component in the lower-left corner */}
-      <div style={{ position: 'absolute', center: 0, bottom: -800, left: 650, width: '300px', height: '525px', marginBottom: '20px' }}>
+      <div style={{ position: 'absolute', center: 0, bottom: -900, left: 650, width: '300px', height: '525px', marginBottom: '20px' }}>
         <iframe
           width="300%"
           height="100%"
@@ -120,7 +120,7 @@ const SimRacingLogin = () => {
         {/* Banner with Race Car Image */}
         <img src="https://traxion.gg/wp-content/uploads/2022/05/cars.jpg" alt="Racing" style={{ width: '140%', maxHeight: '300px', objectFit: 'cover', marginBottom: '20px' }} />
 
-        <h1>Your one stop to start your Sim Racing Car</h1>
+        <h1>Your one stop to start your Sim Racing career</h1>
 
         {/* Display Wheels, Pedals, and Cockpits cards */}
         <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>

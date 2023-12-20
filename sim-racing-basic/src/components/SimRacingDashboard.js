@@ -137,16 +137,17 @@ const SimRacingDashboard = () => {
 ) : (
   <div>
     <h3>Products in the {capitalizeFirstLetter(selectedCategory)} category:</h3>
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-      {products.map((item) => (
-        <Card
-          key={item.id}
-          item={item}
-          onAddToWishlist={handleAddToWishlist}
-          onDeleteFromWishlist={handleDeleteFromWishlist}
-          isInWishlist={selectedCategory === 'wishlist'}
-        />
-      ))}
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px', justifyContent: 'space-between' }}>
+    {filteredProducts.map((item) => (
+  <Card
+    key={item.id}
+    item={item}
+    onAddToWishlist={handleAddToWishlist}
+    onDeleteFromWishlist={handleDeleteFromWishlist}
+    isInWishlist={selectedCategory === 'wishlist'}
+  />
+))}
+
     </div>
   </div>
 )}
