@@ -116,29 +116,40 @@ const SimRacingDashboard = () => {
       />
 
       {/* Render the selected category component */}
-      {selectedCategory === 'welcome' ? (
-        <div>
-          <p>This application is made to help everyone starting out into Sim Racing to learn what equipment to buy and the path to the right upgrade.</p>
-          <p>Here are some of the equipment to buy at every price level.</p>
-          <p>Please take a look at what we have in our store.</p>
-       
-        </div>
-      ) : (
-        <div>
-          <h3>Products in the {capitalizeFirstLetter(selectedCategory)} category:</h3>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-            {filteredProducts.map((item, index) => (
-              <Card
-                key={index}
-                item={item}
-                onAddToWishlist={handleAddToWishlist}
-                onDeleteFromWishlist={handleDeleteFromWishlist}
-                isInWishlist={selectedCategory === 'wishlist'}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+{selectedCategory === 'welcome' ? (
+  <div>
+    <p>This application is made to help everyone starting out into Sim Racing to learn what equipment to buy and the path to the right upgrade.</p>
+    <p>Here are some of the equipment to buy at every price level.</p>
+    <p>Please take a look at what we have in our store.</p>
+    <p>
+      {/* <a href="https://fanatec.com/us-en/" target="_blank" rel="noopener noreferrer"></a> */}
+        <img src='https://www.logolynx.com/images/logolynx/37/3762e44a9d2cdb9fabee6e93cf954b93.jpeg' alt='Fanatec' />
+    </p>  
+    <p>
+    {/* <a href="https://www.logitech.com/en-us" target="_blank" rel="noopener noreferrer"></a> */}
+      <img src='https://pluspng.com/img-png/logitech-logo-png-logitech-g-brands-of-the-world-img-vector-logos-and-195x195.png' alt='Logitech' />
+    </p>
+    <p>
+    {/* <a href="https://www.thrustmaster.com/en-us/homepage/" target="_blank" rel="noopener noreferrer"></a> */}
+      <img src='https://logovectorseek.com/wp-content/uploads/2021/03/thrustmaster-logo-vector-xs.png' alt='Thrustmater' />
+    </p>
+  </div>
+) : (
+  <div>
+    <h3>Products in the {capitalizeFirstLetter(selectedCategory)} category:</h3>
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+      {products.map((item) => (
+        <Card
+          key={item.id}
+          item={item}
+          onAddToWishlist={handleAddToWishlist}
+          onDeleteFromWishlist={handleDeleteFromWishlist}
+          isInWishlist={selectedCategory === 'wishlist'}
+        />
+      ))}
+    </div>
+  </div>
+)}
 
       {/* Render Wishlist component at the bottom */}
       {selectedCategory === 'wishlist' && <Wishlist />}

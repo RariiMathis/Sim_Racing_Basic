@@ -68,16 +68,19 @@ const SimRacingLogin = () => {
   ];
 
   return (
-    <div style={{ 
-      textAlign: 'center',
-      background: 'linear-gradient(to bottom, #3498db, #ffffff)', 
-      minHeight: '100vh',  
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}>
+    <div
+  style={{
+    textAlign: 'center',
+    background: '#fffff', 
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+
       {/* Video component in the lower-left corner */}
-      <div style={{ position: 'absolute', left: 0, bottom: -40, width: '200px', height: '325px', marginBottom: '20px' }}>
+      <div style={{ position: 'absolute', center: 0, bottom: -800, left: 650, width: '300px', height: '525px', marginBottom: '20px' }}>
         <iframe
           width="300%"
           height="100%"
@@ -90,18 +93,32 @@ const SimRacingLogin = () => {
       </div>
 
       {/* Image component in the lower-right corner */}
-      <div style={{ position: 'absolute', right: -40, bottom: 0, width: '400px', height: '325px', marginBottom: '20px' }}>
+      <div style={{ position: 'absolute', left: -40, bottom: 0, width: '400px', height: '325px', marginBottom: '20px' }}>
         <img
-          src="https://s100.iracing.com/wp-content/uploads/2020/12/EordlGCWMAAOFOL.jpeg"  
+          src="https://mma.prnewswire.com/media/1086799/iRacing_Blue_Horizontal_R_Logo.jpg?p=facebook"  
           alt="Image 1"
-          style={{ position: 'absolute', right: -255, bottom: -70, width: '140%', height: '100%', objectFit: 'cover', marginBottom: '25px' }}
+          style={{ position: 'absolute', right: -255, bottom: -70, width: '150%', height: '50%', objectFit: 'cover', marginBottom: '25px' }}
+        />
+      </div>
+      <div style={{ position: 'absolute', left: -40, bottom: 0, width: '400px', height: '325px', marginBottom: '20px' }}>
+        <img
+          src="https://www.mkaugaming.com/wp-content/uploads/2020/06/104970298_4656395647720050_7891966064154370144_o.jpg"  
+          alt="Image 2"
+          style={{ position: 'absolute', right: -255, bottom: 200, width: '150%', height: '50%', objectFit: 'cover', marginBottom: '25px' }}
+        />
+      </div>
+      <div style={{ position: 'absolute', left: -40, bottom: 0, width: '400px', height: '325px', marginBottom: '20px' }}>
+        <img
+          src="https://logosmarcas.net/wp-content/uploads/2021/04/Forza-Emblema.jpg"  
+          alt="Image 3"
+          style={{ position: 'absolute', right: -255, bottom: -300, width: '150%', height: '50%', objectFit: 'cover', marginBottom: '25px' }}
         />
       </div>
 
       {/* Content in the center */}
       <div style={{ marginLeft: '320px', marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {/* Banner with Race Car Image */}
-        <img src="https://traxion.gg/wp-content/uploads/2022/05/cars.jpg" alt="R8" style={{ width: '140%', maxHeight: '300px', objectFit: 'cover', marginBottom: '20px' }} />
+        <img src="https://traxion.gg/wp-content/uploads/2022/05/cars.jpg" alt="Racing" style={{ width: '140%', maxHeight: '300px', objectFit: 'cover', marginBottom: '20px' }} />
 
         <h1>Your one stop to start your Sim Racing Car</h1>
 
